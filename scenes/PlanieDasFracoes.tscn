@@ -1,0 +1,470 @@
+[gd_scene format=3 uid="uid://nw2fracoes"]
+
+[ext_resource type="Script" uid="uid://8u8cfbi3togn" path="res://scripts/cena_principal.gd" id="1_raiz"]
+[ext_resource type="Script" uid="uid://b7tvneb02s00x" path="res://scripts/neo_player.gd" id="2_neo"]
+[ext_resource type="Texture2D" uid="uid://n5ebynrfuj0c" path="res://assets/sprites/neo_spritesheet-removebg-preview.png" id="3_i6p7q"]
+[ext_resource type="Script" uid="uid://c518qjgln0hjl" path="res://scripts/painel_puzzle.gd" id="3_painel"]
+[ext_resource type="Script" uid="uid://wao5jqlj8rih" path="res://scripts/ponte.gd" id="4_ponte"]
+[ext_resource type="Script" uid="uid://dh31tfuvou4db" path="res://scripts/portal_fase.gd" id="5_portal"]
+[ext_resource type="Texture2D" uid="uid://7vaf4kfuyaf1" path="res://assets/sprites/painel_interativo-removebg-preview.png" id="5_vlfg3"]
+[ext_resource type="Texture2D" uid="uid://bar3nne4casmk" path="res://assets/sprites/portal_fase-removebg-preview.png" id="8_fv0kn"]
+[ext_resource type="Script" uid="uid://c5dtruld1tr3t" path="res://scripts/hud.gd" id="9_hud"]
+[ext_resource type="PackedScene" uid="uid://df4k52fragm" path="res://scenes/Fragmento.tscn" id="10_frag"]
+[ext_resource type="AudioStream" uid="uid://cxw5dr1pnpfix" path="res://assets/audio/pulo.wav" id="11_pulo"]
+[ext_resource type="AudioStream" uid="uid://drauxq5mfam8v" path="res://assets/audio/passos.wav" id="12_passos"]
+[ext_resource type="AudioStream" uid="uid://d37veqhiy78eb" path="res://assets/audio/musica_loop.wav" id="13_musica"]
+
+[sub_resource type="RectangleShape2D" id="col_plat_esq"]
+size = Vector2(400, 40)
+
+[sub_resource type="RectangleShape2D" id="col_plat_dir"]
+size = Vector2(400, 40)
+
+[sub_resource type="CapsuleShape2D" id="col_neo"]
+radius = 18.0
+height = 52.0
+
+[sub_resource type="Animation" id="Animation_idle"]
+resource_name = "idle"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_jump"]
+resource_name = "jump"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [8, 9]
+}
+
+[sub_resource type="Animation" id="Animation_walk"]
+resource_name = "walk"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [4, 5, 6, 7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_neo"]
+_data = {
+&"idle": SubResource("Animation_idle"),
+&"jump": SubResource("Animation_jump"),
+&"walk": SubResource("Animation_walk")
+}
+
+[sub_resource type="RectangleShape2D" id="col_area_painel"]
+size = Vector2(130, 110)
+
+[sub_resource type="RectangleShape2D" id="col_frag_a"]
+size = Vector2(99, 20)
+
+[sub_resource type="RectangleShape2D" id="col_frag_b"]
+size = Vector2(192, 20)
+
+[sub_resource type="RectangleShape2D" id="col_frag_c"]
+size = Vector2(95, 20)
+
+[sub_resource type="RectangleShape2D" id="col_portal"]
+size = Vector2(70, 110)
+
+[sub_resource type="RectangleShape2D" id="col_abismo"]
+size = Vector2(400, 20)
+
+[node name="PlanieDasFracoes" type="Node2D" unique_id=1684964355]
+position = Vector2(3, 0)
+script = ExtResource("1_raiz")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=2079852991]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=294688416]
+
+[node name="Fundo" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer" unique_id=311050133]
+z_index = -10
+position = Vector2(640, 480)
+scale = Vector2(1.2, 1.2)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=905651672]
+position = Vector2(640, 360)
+
+[node name="PlataformaEsquerda" type="StaticBody2D" parent="." unique_id=1168770404]
+position = Vector2(200, 500)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlataformaEsquerda" unique_id=246743875]
+shape = SubResource("col_plat_esq")
+
+[node name="ColorRect" type="ColorRect" parent="PlataformaEsquerda" unique_id=1611305198]
+offset_left = -200.0
+offset_top = -20.0
+offset_right = 200.0
+offset_bottom = 20.0
+color = Color(0.12, 0.38, 0.2, 0.85)
+
+[node name="PlataformaDireita" type="StaticBody2D" parent="." unique_id=155352820]
+position = Vector2(1000, 500)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlataformaDireita" unique_id=670716913]
+shape = SubResource("col_plat_dir")
+
+[node name="ColorRect" type="ColorRect" parent="PlataformaDireita" unique_id=224428285]
+offset_left = -200.0
+offset_top = -20.0
+offset_right = 200.0
+offset_bottom = 20.0
+color = Color(0.12, 0.38, 0.2, 0.85)
+
+[node name="Neo" type="CharacterBody2D" parent="." unique_id=143071502]
+position = Vector2(149, 419)
+script = ExtResource("2_neo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Neo" unique_id=1515169457]
+position = Vector2(-2, 32)
+shape = SubResource("col_neo")
+
+[node name="Sprite2D" type="Sprite2D" parent="Neo" unique_id=1597678736]
+position = Vector2(-3.9999928, 28.000015)
+scale = Vector2(0.434125, 0.31312498)
+texture = ExtResource("3_i6p7q")
+hframes = 4
+vframes = 4
+
+[node name="Camera2D" type="Camera2D" parent="Neo" unique_id=1383253461]
+position = Vector2(-2, 20)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Neo" unique_id=125450942]
+libraries/ = SubResource("AnimationLibrary_neo")
+
+[node name="AudioPulo" type="AudioStreamPlayer2D" parent="Neo" unique_id=1615916179]
+stream = ExtResource("11_pulo")
+
+[node name="AudioPassos" type="AudioStreamPlayer2D" parent="Neo" unique_id=864372789]
+stream = ExtResource("12_passos")
+
+[node name="PainelPuzzle" type="Node2D" parent="." unique_id=1657852469]
+position = Vector2(430, 420)
+script = ExtResource("3_painel")
+
+[node name="Sprite2D" type="Sprite2D" parent="PainelPuzzle" unique_id=1368217970]
+position = Vector2(-22.500011, -29.499973)
+scale = Vector2(0.23399992, 0.20999996)
+texture = ExtResource("5_vlfg3")
+
+[node name="Area2D" type="Area2D" parent="PainelPuzzle" unique_id=766584819]
+position = Vector2(0, -20)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PainelPuzzle/Area2D" unique_id=2127501444]
+position = Vector2(-21, -10)
+shape = SubResource("col_area_painel")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="PainelPuzzle" unique_id=765097143]
+process_mode = 3
+
+[node name="PainelUI" type="PanelContainer" parent="PainelPuzzle/CanvasLayer" unique_id=216442207]
+process_mode = 3
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -295.0
+offset_top = -215.0
+offset_right = 295.0
+offset_bottom = 215.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PainelPuzzle/CanvasLayer/PainelUI" unique_id=1683169105]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="LabelEnunciado" type="Label" parent="PainelPuzzle/CanvasLayer/PainelUI/VBoxContainer" unique_id=263404703]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Monte a operacao para unir a ponte:
+Selecione as fracoes na ordem correta!"
+horizontal_alignment = 1
+
+[node name="HBoxFracoes" type="HBoxContainer" parent="PainelPuzzle/CanvasLayer/PainelUI/VBoxContainer" unique_id=695652918]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="BotaoF1" type="Button" parent="PainelPuzzle/CanvasLayer/PainelUI/VBoxContainer/HBoxFracoes" unique_id=1547766180]
+custom_minimum_size = Vector2(110, 64)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "1/4"
+
+[node name="BotaoF2" type="Button" parent="PainelPuzzle/CanvasLayer/PainelUI/VBoxContainer/HBoxFracoes" unique_id=1242097182]
+custom_minimum_size = Vector2(110, 64)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "1/2"
+
+[node name="BotaoF3" type="Button" parent="PainelPuzzle/CanvasLayer/PainelUI/VBoxContainer/HBoxFracoes" unique_id=325857781]
+custom_minimum_size = Vector2(110, 64)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "1/4"
+
+[node name="LabelEquacao" type="Label" parent="PainelPuzzle/CanvasLayer/PainelUI/VBoxContainer" unique_id=622500692]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "[ ] + [ ] + [ ] = ?"
+horizontal_alignment = 1
+
+[node name="BotaoVerificar" type="Button" parent="PainelPuzzle/CanvasLayer/PainelUI/VBoxContainer" unique_id=785747492]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Verificar"
+
+[node name="LabelFeedback" type="Label" parent="PainelPuzzle/CanvasLayer/PainelUI/VBoxContainer" unique_id=467821028]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.1, 1)
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+
+[node name="Ponte" type="Node2D" parent="." unique_id=953847672]
+position = Vector2(571, 481)
+script = ExtResource("4_ponte")
+
+[node name="Sprite2D" type="Sprite2D" parent="Ponte" unique_id=786831853]
+visible = false
+
+[node name="FragmentoA" type="StaticBody2D" parent="Ponte" unique_id=1184924869]
+position = Vector2(0, 40)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ponte/FragmentoA" unique_id=50697060]
+position = Vector2(-114, 8)
+shape = SubResource("col_frag_a")
+
+[node name="ColorRect" type="ColorRect" parent="Ponte/FragmentoA" unique_id=1944029273]
+offset_left = -164.0
+offset_top = -3.0
+offset_right = -65.0
+offset_bottom = 17.0
+color = Color(0.1, 0.9, 1, 0.65)
+
+[node name="Label" type="Label" parent="Ponte/FragmentoA" unique_id=597397565]
+visible = false
+offset_left = -12.0
+offset_top = -28.0
+offset_right = -12.0
+offset_bottom = -28.0
+theme_override_font_sizes/font_size = 12
+text = "1/4"
+
+[node name="FragmentoB" type="StaticBody2D" parent="Ponte" unique_id=914460035]
+position = Vector2(96, 80)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ponte/FragmentoB" unique_id=712330974]
+position = Vector2(-62, 3)
+shape = SubResource("col_frag_b")
+
+[node name="ColorRect" type="ColorRect" parent="Ponte/FragmentoB" unique_id=454216456]
+offset_left = -158.0
+offset_top = -6.0
+offset_right = 35.0
+offset_bottom = 14.0
+color = Color(0.1, 0.9, 1, 0.65)
+
+[node name="Label" type="Label" parent="Ponte/FragmentoB" unique_id=1414230540]
+visible = false
+offset_left = -10.0
+offset_top = -28.0
+offset_right = -10.0
+offset_bottom = -28.0
+theme_override_font_sizes/font_size = 12
+text = "1/2"
+
+[node name="FragmentoC" type="StaticBody2D" parent="Ponte" unique_id=1731282036]
+position = Vector2(288, 40)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ponte/FragmentoC" unique_id=998678512]
+position = Vector2(-106, 8)
+shape = SubResource("col_frag_c")
+
+[node name="ColorRect" type="ColorRect" parent="Ponte/FragmentoC" unique_id=1649399098]
+offset_left = -153.0
+offset_top = -3.0
+offset_right = -60.0
+offset_bottom = 17.0
+color = Color(0.1, 0.9, 1, 0.65)
+
+[node name="Label" type="Label" parent="Ponte/FragmentoC" unique_id=791832192]
+visible = false
+offset_left = -12.0
+offset_top = -28.0
+offset_right = -12.0
+offset_bottom = -28.0
+theme_override_font_sizes/font_size = 12
+text = "1/4"
+
+[node name="Portal" type="Area2D" parent="." unique_id=849637586]
+visible = false
+position = Vector2(1080, 430)
+script = ExtResource("5_portal")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Portal" unique_id=857844919]
+shape = SubResource("col_portal")
+
+[node name="SpritePortal" type="Sprite2D" parent="Portal" unique_id=6539824]
+position = Vector2(0, -40)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("8_fv0kn")
+
+[node name="GlowRect" type="ColorRect" parent="Portal" unique_id=1760575428]
+z_index = -1
+offset_left = -35.0
+offset_top = -90.0
+offset_right = 35.0
+offset_bottom = 10.0
+color = Color(0.3, 0.8, 1, 0.25)
+
+[node name="LabelPortal" type="Label" parent="Portal" unique_id=1526702646]
+offset_left = -45.0
+offset_top = -115.0
+offset_right = -45.0
+offset_bottom = -115.0
+theme_override_colors/font_color = Color(1, 0.95, 0.3, 1)
+theme_override_font_sizes/font_size = 11
+text = "PROXIMA FASE"
+
+[node name="CanvasLayerParabens" type="CanvasLayer" parent="Portal" unique_id=1866781585]
+process_mode = 3
+
+[node name="PainelParabens" type="PanelContainer" parent="Portal/CanvasLayerParabens" unique_id=353467244]
+process_mode = 3
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -190.0
+offset_right = 280.0
+offset_bottom = 190.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Portal/CanvasLayerParabens/PainelParabens" unique_id=1625793564]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="LabelTrofeu" type="Label" parent="Portal/CanvasLayerParabens/PainelParabens/VBox" unique_id=403941043]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "🏆"
+horizontal_alignment = 1
+
+[node name="LabelParabens" type="Label" parent="Portal/CanvasLayerParabens/PainelParabens/VBox" unique_id=1949874027]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Parabens! Voce resolveu o puzzle!"
+horizontal_alignment = 1
+
+[node name="LabelSubtitulo" type="Label" parent="Portal/CanvasLayerParabens/PainelParabens/VBox" unique_id=315824976]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 15
+text = "A Planicie das Fracoes foi restaurada.
+1/4 + 1/2 + 1/4 = 1  Missao cumprida!"
+horizontal_alignment = 1
+
+[node name="BotaoReiniciar" type="Button" parent="Portal/CanvasLayerParabens/PainelParabens/VBox" unique_id=1473217839]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Jogar Novamente"
+
+[node name="Abismo" type="Area2D" parent="." unique_id=551155223]
+position = Vector2(600, 580)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Abismo" unique_id=170160703]
+position = Vector2(0, 9)
+shape = SubResource("col_abismo")
+
+[node name="HUDCanvasLayer" type="CanvasLayer" parent="." unique_id=500531200]
+process_mode = 3
+
+[node name="LabelInstrucoes" type="Label" parent="HUDCanvasLayer" unique_id=1697884033]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 16.0
+theme_override_font_sizes/font_size = 14
+text = "Setas / A-D: Mover  |  Espaco: Pular  |  E: Interagir com painel"
+
+[node name="LabelTitulo" type="Label" parent="HUDCanvasLayer" unique_id=1800811787]
+offset_left = 16.0
+offset_top = 696.0
+offset_right = 16.0
+offset_bottom = 696.0
+theme_override_colors/font_color = Color(0.65, 0.65, 0.65, 1)
+theme_override_font_sizes/font_size = 12
+text = "Numbers World 2 - Planicie das Fracoes"
+
+[node name="MusicaFundo" type="AudioStreamPlayer" parent="." unique_id=2138867178]
+stream = ExtResource("13_musica")
+autoplay = true
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=72033546]
+layer = 10
+script = ExtResource("9_hud")
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD" unique_id=1263142467]
+offset_left = 16.0
+offset_top = 46.0
+offset_right = 16.0
+offset_bottom = 46.0
+
+[node name="VBox" type="VBoxContainer" parent="HUD/MarginContainer" unique_id=1776883435]
+layout_mode = 2
+
+[node name="LabelFragmentos" type="Label" parent="HUD/MarginContainer/VBox" unique_id=1094802050]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Fragmentos de Conhecimento: 0"
+
+[node name="Fragmento1" parent="." unique_id=1917101336 instance=ExtResource("10_frag")]
+position = Vector2(280, 420)
+
+[node name="Fragmento2" parent="." unique_id=1435099909 instance=ExtResource("10_frag")]
+position = Vector2(400, 320)
+
+[node name="Fragmento3" parent="." unique_id=1920762639 instance=ExtResource("10_frag")]
+position = Vector2(850, 420)
+
+[connection signal="body_entered" from="PainelPuzzle/Area2D" to="Neo" method="_on_area_painel_body_entered"]
+[connection signal="body_exited" from="PainelPuzzle/Area2D" to="Neo" method="_on_area_painel_body_exited"]

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://df4k52fragm"]
+
+[ext_resource type="Script" path="res://scripts/fragmento.gd" id="1_frag"]
+[ext_resource type="Texture2D" path="res://assets/sprites/fragmento.png" id="2_tex"]
+[ext_resource type="AudioStream" path="res://assets/audio/coleta.wav" id="3_som"]
+
+[sub_resource type="RectangleShape2D" id="col_frag"]
+size = Vector2(32, 32)
+
+[node name="Fragmento" type="Area2D"]
+script = ExtResource("1_frag")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("col_frag")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.04, 0.04)
+texture = ExtResource("2_tex")
+
+[node name="AudioColeta" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_som")
+bus = &"SFX"

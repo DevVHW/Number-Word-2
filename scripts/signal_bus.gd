@@ -1,0 +1,7 @@
+extends Node
+
+signal abrir_painel_puzzle
+signal puzzle_resolvido
+signal resposta_errada
+signal fase_concluida
+signal fragmento_coletado
