@@ -18,12 +18,12 @@ var _estava_no_chao : bool  = true
 func _physics_process(delta: float) -> void:
 	_aplicar_gravidade(delta)
 
-	var direcao : float = Input.get_axis("ui_left", "ui_right")
+	var direcao : float = Input.get_axis("mover_esquerda", "mover_direita")
 	velocity.x = direcao * VELOCIDADE
 
 	_processar_pulo()
 
-	if pode_interagir and Input.is_action_just_pressed("interagir"):
+	if pode_interagir and not SignalBus.puzzle_aberto and Input.is_action_just_pressed("interagir"):
 		SignalBus.abrir_painel_puzzle.emit()
 
 	move_and_slide()
@@ -38,7 +38,7 @@ func _aplicar_gravidade(delta: float) -> void:
 
 
 func _processar_pulo() -> void:
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if Input.is_action_just_pressed("pular") and is_on_floor():
 		velocity.y = FORCA_PULO
 		audio_pulo.play()
 
@@ -66,8 +66,10 @@ func _atualizar_passos(delta: float, direcao: float) -> void:
 func _on_area_painel_body_entered(body: Node2D) -> void:
 	if body == self:
 		pode_interagir = true
+		SignalBus.neo_perto_painel.emit(true)
 
 
 func _on_area_painel_body_exited(body: Node2D) -> void:
 	if body == self:
 		pode_interagir = false
+		SignalBus.neo_perto_painel.emit(false)

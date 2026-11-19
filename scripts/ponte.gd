@@ -30,14 +30,23 @@ func _definir_colisao(ativo: bool) -> void:
 
 
 func _animar_ponte_unindo() -> void:
-	var tween : Tween = create_tween()
-	tween.set_parallel(true)
-	tween.set_ease(Tween.EASE_OUT)
-	tween.set_trans(Tween.TRANS_BOUNCE)
-	tween.tween_property(fragmento_a, "position", POS_FINAL_A, DURACAO_ANIMACAO)
-	tween.tween_property(fragmento_b, "position", POS_FINAL_B, DURACAO_ANIMACAO)
-	tween.tween_property(fragmento_c, "position", POS_FINAL_C, DURACAO_ANIMACAO)
-	await tween.finished
+	var som := AudioStreamPlayer.new()
+	som.stream = load("res://assets/audio/encaixe.wav")
+	add_child(som)
+	var pecas := [[fragmento_a, POS_FINAL_A], [fragmento_b, POS_FINAL_B], [fragmento_c, POS_FINAL_C]]
+	for i in pecas.size():
+		var peca : StaticBody2D = pecas[i][0]
+		var tween : Tween = create_tween()
+		tween.set_ease(Tween.EASE_OUT)
+		tween.set_trans(Tween.TRANS_BACK)
+		tween.tween_property(peca, "position", pecas[i][1], DURACAO_ANIMACAO / 2.0)
+		await tween.finished
+		som.pitch_scale = 1.0 + i * 0.15
+		som.play()
+		peca.modulate = Color(1.0, 0.95, 0.4)
+		var brilho := create_tween()
+		brilho.tween_property(peca, "scale", Vector2(1.08, 1.25), 0.08)
+		brilho.tween_property(peca, "scale", Vector2.ONE, 0.12)
+		await get_tree().create_timer(0.15).timeout
 	_definir_colisao(true)
-	for fragmento in [fragmento_a, fragmento_b, fragmento_c]:
-		fragmento.modulate = Color(1.0, 0.95, 0.4)
+	SignalBus.ponte_montada.emit()

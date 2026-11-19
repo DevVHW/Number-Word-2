@@ -195,10 +195,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -295.0
-offset_top = -215.0
-offset_right = 295.0
-offset_bottom = 215.0
+offset_left = -340.0
+offset_top = -300.0
+offset_right = 340.0
+offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -209,8 +209,7 @@ theme_override_constants/separation = 14
 [node name="LabelEnunciado" type="Label" parent="PainelPuzzle/CanvasLayer/PainelUI/VBoxContainer" unique_id=263404703]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "Monte a operacao para unir a ponte:
-Selecione as fracoes na ordem correta!"
+text = "Monte a operação para unir a ponte."
 horizontal_alignment = 1
 
 [node name="HBoxFracoes" type="HBoxContainer" parent="PainelPuzzle/CanvasLayer/PainelUI/VBoxContainer" unique_id=695652918]
@@ -358,7 +357,7 @@ offset_right = -45.0
 offset_bottom = -115.0
 theme_override_colors/font_color = Color(1, 0.95, 0.3, 1)
 theme_override_font_sizes/font_size = 11
-text = "PROXIMA FASE"
+text = "PRÓXIMA FASE"
 
 [node name="CanvasLayerParabens" type="CanvasLayer" parent="Portal" unique_id=1866781585]
 process_mode = 3
@@ -371,10 +370,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -280.0
-offset_top = -190.0
-offset_right = 280.0
-offset_bottom = 190.0
+offset_left = -330.0
+offset_top = -250.0
+offset_right = 330.0
+offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -385,21 +384,22 @@ theme_override_constants/separation = 20
 [node name="LabelTrofeu" type="Label" parent="Portal/CanvasLayerParabens/PainelParabens/VBox" unique_id=403941043]
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
-text = "🏆"
+text = "Medalha"
 horizontal_alignment = 1
 
 [node name="LabelParabens" type="Label" parent="Portal/CanvasLayerParabens/PainelParabens/VBox" unique_id=1949874027]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
-text = "Parabens! Voce resolveu o puzzle!"
+text = "Parabéns!"
 horizontal_alignment = 1
 
 [node name="LabelSubtitulo" type="Label" parent="Portal/CanvasLayerParabens/PainelParabens/VBox" unique_id=315824976]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.9, 1, 1)
 theme_override_font_sizes/font_size = 15
-text = "A Planicie das Fracoes foi restaurada.
-1/4 + 1/2 + 1/4 = 1  Missao cumprida!"
+text = "A ponte foi reconstruída e a Planície das Frações voltou ao equilíbrio.
+1/4 + 1/2 + 1/4 = 1 — missão cumprida, Neo!
+O Caos Numérico ainda se esconde nos próximos mundos..."
 horizontal_alignment = 1
 
 [node name="BotaoReiniciar" type="Button" parent="Portal/CanvasLayerParabens/PainelParabens/VBox" unique_id=1473217839]
@@ -424,7 +424,7 @@ offset_top = 16.0
 offset_right = 16.0
 offset_bottom = 16.0
 theme_override_font_sizes/font_size = 14
-text = "Setas / A-D: Mover  |  Espaco: Pular  |  E: Interagir com painel"
+text = "Setas ou A/D: andar   |   Espaço ou W: pular   |   E: interagir   |   Esc: pausa e ajuda"
 
 [node name="LabelTitulo" type="Label" parent="HUDCanvasLayer" unique_id=1800811787]
 offset_left = 16.0
@@ -433,7 +433,7 @@ offset_right = 16.0
 offset_bottom = 696.0
 theme_override_colors/font_color = Color(0.65, 0.65, 0.65, 1)
 theme_override_font_sizes/font_size = 12
-text = "Numbers World 2 - Planicie das Fracoes"
+text = "Numbers World 2 — Planície das Frações"
 
 [node name="MusicaFundo" type="AudioStreamPlayer" parent="." unique_id=2138867178]
 stream = ExtResource("13_musica")

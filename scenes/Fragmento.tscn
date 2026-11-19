@@ -19,4 +19,3 @@ texture = ExtResource("2_tex")
 
 [node name="AudioColeta" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_som")
-bus = &"SFX"

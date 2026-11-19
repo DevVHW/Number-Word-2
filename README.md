@@ -2,7 +2,7 @@
 
 Jogo de plataforma 2D educativo, feito na **Godot Engine**, em que o jogador controla o personagem **Neo** e usa **soma de frações** para reconstruir uma ponte quebrada e chegar ao portal da próxima fase.
 
-Esta versão é um **protótipo jogável com uma única fase**: a *Planície das Frações*.
+Esta versão é um **protótipo jogável com uma única fase**: a *Planície das Frações*, agora com menu inicial, abertura narrativa, tutorial dentro do jogo, menu de pausa com volume, sons de acerto/erro e novas fontes. As mudanças desta versão estão em [`docs/MELHORIAS.md`](docs/MELHORIAS.md).
 
 | | |
 |---|---|
@@ -11,7 +11,7 @@ Esta versão é um **protótipo jogável com uma única fase**: a *Planície das
 | **Professor** | Diego Sauter Possamai |
 | **GDD (Game Design Document)** | [`docs/GDD_10_Pages_Final.pdf`](docs/GDD_10_Pages_Final.pdf) |
 | **Documento Complementar (GDD × implementado, assets, sons, animações)** | [`docs/Documento_Complementar_Prototipo_N3.pdf`](docs/Documento_Complementar_Prototipo_N3.pdf) |
-| **Executável (Windows)** | [Releases do repositório](https://github.com/DevVHW/Number-Word-2/releases) |
+| **Executável (Windows) e versão Web** | [Releases do repositório](https://github.com/DevVHW/Number-Word-2/releases) |
 
 ---
 
@@ -100,7 +100,7 @@ Ao final, a pasta deve conter o arquivo **`project.godot`** na raiz, junto com `
 1. Abra a Godot 4.6. No **Gerenciador de Projetos**, clique em **Importar** (*Import*).
 2. Clique em **Procurar** (*Browse*), selecione o arquivo **`project.godot`** da pasta do projeto e clique em **Abrir**; depois em **Importar e Editar**.
 3. Aguarde a primeira abertura: a Godot importa imagens e sons automaticamente (de alguns segundos a um minuto). É normal.
-4. Clique em **▶ Executar Projeto** (canto superior direito) ou aperte **F5**. A cena principal (`scenes/PlanieDasFracoes.tscn`) já está configurada como inicial.
+4. Clique em **▶ Executar Projeto** (canto superior direito) ou aperte **F5**. O menu inicial (`scenes/MenuPrincipal.tscn`) já está configurado como cena de abertura.
 5. Para fechar, feche a janela do jogo ou aperte **F8** no editor.
 
 ### Opção C — Pelo terminal (opcional)
@@ -119,23 +119,25 @@ godot --path .
 
 ### Iniciando a partida
 
-Não há menu inicial: **a partida começa assim que o jogo abre**. Neo aparece na plataforma da esquerda, com a música de fundo tocando.
+O jogo abre no **menu inicial** (Jogar, Como Jogar, Créditos e Sair). Ao clicar em **Jogar**, uma abertura curta conta a história: o Caos Numérico partiu as pontes da Planície das Frações e Neo precisa reconstruí-las. Aperte **Enter/Espaço** ou clique para avançar, ou **Esc** para pular a história.
 
 ### Controles
 
 | Tecla | Ação |
 |---|---|
-| **← / →** (setas) | Andar para a esquerda / direita |
-| **Espaço** (ou **Enter**) | Pular (só funciona com Neo no chão) |
-| **E** | Interagir com o painel de frações (precisa estar perto dele) |
-| **Mouse (clique esquerdo)** | Clicar nos botões do painel (`1/4`, `1/2`, `Verificar`) e em **Jogar Novamente** |
+| **← / →** ou **A / D** | Andar para a esquerda / direita |
+| **Espaço**, **W** ou **↑** | Pular (só funciona com Neo no chão) |
+| **E** | Usar o painel de frações (aparece "[E] Usar painel" quando Neo está perto) |
+| **Esc** ou **P** | Pausar (continuar, ajuda, volume, reiniciar, voltar ao menu). No painel, fecha o puzzle |
+| **Mouse** | Clicar nos botões dos menus e do painel |
 
-> **Atenção:** o texto no topo da tela cita "A-D" para mover, mas nesta versão **apenas as setas ← →** movem o personagem.
+### Tutorial e tela do jogo (HUD)
 
-### Tela do jogo (HUD)
-
-- **Canto superior esquerdo:** lembrete dos controles.
-- **Logo abaixo:** contador **"Fragmentos de Conhecimento: N"**, que aumenta a cada fragmento coletado.
+- **Tutorial contextual:** a caixa na parte de baixo ensina uma ação por vez (andar, pular, ir até o totem, apertar E) e muda conforme o jogador avança.
+- **Objetivo (canto superior direito):** mostra sempre o que fazer agora.
+- **Canto superior esquerdo:** lembrete dos controles e contador **"Fragmentos de Conhecimento: N/3"**.
+- **Falas curtas** em balões: Neo e o totem comentam a história nos momentos-chave (chegada, aproximação do totem, queda e ponte pronta).
+- **Avisos rápidos** no centro da tela confirmam conquistas (fragmento coletado, ponte restaurada) e explicam a queda no abismo.
 
 ---
 
@@ -148,41 +150,39 @@ Atravessar o abismo que separa as duas plataformas e chegar ao **portal "PRÓXIM
 ### Regras básicas
 
 - Neo anda e pula pelas plataformas. **Não há inimigos nem limite de tempo.**
-- No centro da fase há um **abismo**: se Neo cair, **volta ao ponto inicial** (plataforma esquerda). Não há perda de vida nem "game over".
-- O **painel interativo** fica na plataforma da esquerda. Ao apertar **E** perto dele, o puzzle abre e **o jogo pausa**.
+- No centro da fase há um **abismo**: se Neo cair, **volta ao ponto inicial** (plataforma esquerda). Não há perda de vida nem "game over". As bordas da fase têm paredes invisíveis, então Neo não sai da tela.
+- O **painel interativo** (totem) fica na plataforma da esquerda. Ao apertar **E** perto dele, o puzzle abre e **o jogo pausa**.
 - O puzzle tem **3 espaços** (`[ ] + [ ] + [ ] = ?`) e **3 botões de fração**: `1/4`, `1/2` e `1/4`.
   - Cada clique em um botão **preenche o próximo espaço vazio**. O mesmo botão pode ser clicado mais de uma vez.
-  - Ao clicar em **Verificar**, o jogo soma as três frações.
-  - **A soma precisa ser exatamente 1 (um inteiro).**
-- **Resposta errada:** aparece "Soma incorreta! Tente novamente.", os espaços são limpos e surge a dica *"a soma deve ser igual a 1 inteiro"*. Dá para tentar quantas vezes quiser.
-- **Espaços incompletos:** *Verificar* sem preencher os 3 espaços mostra "Preencha todos os campos!".
+  - Uma **barra de soma** mostra quanto a soma parcial já vale e quanto falta para 1 inteiro.
+  - **Desfazer** remove a última fração, **Limpar** esvazia os espaços, **Dica** mostra uma pista e **Fechar (Esc)** volta ao jogo sem resolver.
+  - Ao clicar em **Verificar soma**, o jogo soma as três frações. **A soma precisa ser exatamente 1 (um inteiro).** A ordem não importa.
+- **Resposta errada:** som de erro, o painel treme, aparece o resultado obtido (ex.: "a soma deu 3/4 e ficou menor que 1") e, em seguida, uma dica. As dicas ficam mais detalhadas a cada erro. Dá para tentar quantas vezes quiser.
+- **Resposta certa:** som de acerto e a explicação "2/4 + 1/4 + 1/4 = 4/4 = 1 inteiro".
 
 ### Progressão, vitória e derrota
 
 | Situação | O que acontece |
 |---|---|
-| Puzzle correto | "CORRETO! A ponte se une!", o painel fecha, **os 3 pedaços da ponte se unem** e **o portal aparece** na plataforma da direita |
-| Neo entra no portal | **Vitória:** tela "Parabéns! Você resolveu o puzzle!" com o botão **Jogar Novamente** |
+| Puzzle correto | Som de acerto, o painel fecha, **os 3 pedaços da ponte encaixam um a um, com som,** mostrando `1/4`, `1/2` e `1/4` e **o portal aparece** na plataforma da direita |
+| Neo entra no portal | **Vitória:** tela com medalha, fragmentos, tempo e tentativas erradas, e os botões **Jogar Novamente** e **Voltar ao menu** |
 | Cair no abismo | Neo reaparece no início, sem punição |
 
 Não existe condição de derrota: o jogador só avança ou tenta de novo.
 
 ### Fragmentos de Conhecimento (coletáveis)
 
-Há **3 fragmentos** flutuantes na fase. Basta encostar para coletar: toca um som e o contador do HUD aumenta. **Nesta versão são opcionais** e não influenciam a vitória. Um deles fica no alto (exige pulo) e outro na plataforma da direita (só alcançável depois de montar a ponte).
+Há **3 fragmentos** flutuantes na fase. Basta encostar para coletar: toca um som e o contador do HUD aumenta. Eles são opcionais para vencer, mas definem a **medalha**: 3 fragmentos = ouro, 1 ou 2 = prata, nenhum = bronze. Um deles fica no alto (exige pulo) e outro na plataforma da direita (só alcançável depois de montar a ponte).
 
 ---
 
 ## 7. Passo a passo da fase
 
-Para testar rapidamente o fluxo completo:
-
-1. Inicie o jogo e use **→** para andar para a direita na plataforma da esquerda (opcional: pule e colete os fragmentos).
-2. Pare **em frente ao painel** (totem com símbolos, no centro-esquerda da plataforma) e aperte **E**.
-3. No puzzle, clique nos botões para preencher os espaços com **1/4 + 1/2 + 1/4** (qualquer ordem serve, desde que haja um `1/2` e dois `1/4`).
-4. Clique em **Verificar**. Em cerca de 1,5 s o painel fecha e a ponte se monta.
-5. Atravesse a ponte para a direita e entre no **portal** na plataforma da direita.
-6. A tela de parabéns aparece. **Jogar Novamente** reinicia a fase.
+1. No menu, clique em **Jogar** e leia (ou pule com **Esc**) a abertura da história.
+2. Siga a caixa de tutorial: ande com **→/D**, pule com **Espaço/W** e colete os fragmentos.
+3. Pare em frente ao totem até aparecer **[E] Usar painel** e aperte **E**.
+4. Preencha **1/4 + 1/2 + 1/4** (qualquer ordem) e clique em **Verificar soma**.
+5. Atravesse a ponte e entre no **portal**. A tela de vitória mostra a medalha; **Jogar Novamente** reinicia e **Voltar ao menu** retorna ao início.
 
 ---
 
@@ -190,24 +190,16 @@ Para testar rapidamente o fluxo completo:
 
 **Limitações da versão atual**
 
-- Existe **apenas 1 fase e 1 puzzle** (`1/4 + 1/2 + 1/4 = 1`). O portal "Próxima Fase" leva direto à tela de parabéns, pois não há segunda fase.
-- **Não há tutorial interno, menu inicial, menu de pausa nem opções de volume.** As instruções estão apenas neste guia.
-- **O painel do puzzle não tem botão de fechar:** depois de aberto, é preciso resolvê-lo para voltar a controlar o personagem.
-- O puzzle **não tem botão para limpar um espaço**; os espaços só são limpos após uma resposta errada ou ao reabrir o painel.
-- O enunciado diz "na ordem correta", mas **qualquer ordem** das frações corretas é aceita.
-- O HUD menciona **A/D**, mas essas teclas **não estão mapeadas**; só as setas funcionam.
-- O executável existe **somente para Windows (64 bits)**. Não há builds para macOS, Linux ou Web; nesses sistemas é preciso abrir o projeto na Godot 4.6.x.
-- Os **Fragmentos de Conhecimento** só contam pontos no HUD; ainda não têm função no jogo.
-- Não há vidas, pontuação final, salvamento de progresso nem suporte a gamepad ou toque (não testados).
-- Os textos do jogo estão **sem acentuação**.
+- Existe **apenas 1 fase e 1 puzzle** (`1/4 + 1/2 + 1/4 = 1`). O portal "Próxima Fase" leva à tela de vitória, pois ainda não há segunda fase.
+- O volume é ajustado no menu de pausa e não fica salvo entre sessões.
+- O executável é para **Windows (64 bits)**; há também a versão **Web** (abre no navegador). macOS e Linux precisam do projeto na Godot 4.6.x.
+- Não há vidas, salvamento de progresso nem suporte a gamepad ou toque (não testados).
 
 **Planejado e ainda não implementado**
 
 - Novas fases e novos puzzles (subtração, equivalência, comparação, porcentagens, números negativos).
-- Menu principal, tutorial interno e opções de áudio.
-- Inimigos e desafios adicionais.
-- Função real para os Fragmentos de Conhecimento (recompensas, dicas).
-- Builds para macOS, Linux e Web.
+- Inimigos (*Bug Numérico*, *Sentinela de Equação*) e o chefe *Caos Numérico*.
+- Música adaptativa e animações Run, Attack, Hurt e Win do Neo.
 
 ---
 
@@ -221,10 +213,10 @@ O GDD descreve o jogo completo (vários mundos, inimigos, chefe final). Esta ver
 
 | Tema | GDD | Protótipo atual |
 |---|---|---|
-| Teclas de movimento | "WASD" / "seta ou A/D" | Somente as **setas ← →** |
-| Fragmentos | Necessários para acessar o puzzle ou a saída da fase | **Opcionais**: o puzzle abre mesmo sem coletá-los |
+| Teclas de movimento | "WASD" / "seta ou A/D" | Setas ou **A/D** para andar; **Espaço/W/↑** para pular |
+| Fragmentos | Necessários para acessar o puzzle ou a saída da fase | **Opcionais**: definem a medalha (ouro, prata ou bronze) |
 | Símbolos "+" e "=" | Neo os coleta antes de resolver | Não existem; o painel já traz a equação |
-| Som de acerto do puzzle | Listado como implementado (`sucesso.wav`) | Não existe; o acerto só tem feedback visual |
+| Som de acerto do puzzle | Listado como `sucesso.wav` | Implementado como `acerto.wav` (e `erro.wav` para resposta errada) |
 
 ---
 
@@ -236,10 +228,9 @@ O GDD descreve o jogo completo (vários mundos, inimigos, chefe final). Esta ver
 | A Godot avisa que o projeto é de outra versão | Use a Godot **4.6.x**. |
 | Erros de arquivo ou imagem não encontrada na primeira abertura | Aguarde a importação terminar (barra no canto inferior direito) e rode de novo. Se persistir, feche e reabra o projeto. |
 | Não há som | Verifique o volume do computador; o áudio toca pela janela do jogo. |
-| Neo não anda com A/D | Use as **setas ← →**. |
 | Apertei **E** e nada aconteceu | Chegue mais perto do painel: Neo precisa estar dentro da área dele. |
-| O jogo "travou" depois de abrir o painel | É a pausa do puzzle; resolva-o para continuar (veja a seção 6). |
-| Aviso no console sobre o barramento de áudio "SFX" | É inofensivo; o som da coleta toca normalmente no barramento padrão. |
+| O jogo "travou" depois de abrir o painel | É a pausa do puzzle; resolva-o ou aperte **Esc** / **Fechar** para voltar. |
+| A versão Web não abre clicando no `index.html` | Navegadores bloqueiam arquivos locais: rode um servidor (ex.: `python -m http.server` na pasta) ou use a versão publicada. |
 
 ---
 
@@ -254,11 +245,15 @@ O GDD descreve o jogo completo (vários mundos, inimigos, chefe final). Esta ver
 ├── project.godot            # Configuração da Godot (cena inicial, resolução, teclas)
 ├── icon.svg                 # Ícone do projeto
 ├── assets/
-│   ├── audio/               # Música de fundo, pulo, passos e coleta (.wav)
+│   ├── audio/               # Música (loop), pulo, passos, coleta, acerto, erro, clique e encaixe (.wav)
 │   ├── backgrounds/         # Fundo da Planície das Frações
-│   └── sprites/             # Neo, painel, portal, ponte e fragmento
+│   ├── fonts/               # Cinzel Decorative, Cinzel e Nunito (licença OFL)
+│   ├── sprites/             # Neo, painel, portal, ponte e fragmento
+│   └── tema.tres            # Tema global (fonte Nunito)
 ├── scenes/
-│   ├── PlanieDasFracoes.tscn   # Cena principal (a fase jogável)
+│   ├── MenuPrincipal.tscn      # Menu inicial (cena de abertura do jogo)
+│   ├── Intro.tscn              # Abertura com a história
+│   ├── PlanieDasFracoes.tscn   # A fase jogável
 │   └── Fragmento.tscn          # Coletável "Fragmento de Conhecimento"
 └── scripts/
     ├── neo_player.gd        # Movimento, pulo, animação e interação do Neo
@@ -267,8 +262,13 @@ O GDD descreve o jogo completo (vários mundos, inimigos, chefe final). Esta ver
     ├── portal_fase.gd       # Portal e tela de vitória
     ├── fragmento.gd         # Coletável
     ├── hud.gd               # Contador de fragmentos
-    ├── cena_principal.gd    # Configuração da cena e respawn no abismo
-    └── signal_bus.gd        # Sinais globais (autoload "SignalBus")
+    ├── cena_principal.gd    # Configuração da cena, respawn e cronômetro
+    ├── menu_principal.gd    # Menu inicial, Como Jogar e Créditos
+    ├── intro.gd             # Abertura narrativa
+    ├── guia_tutorial.gd     # Tutorial contextual e objetivo na tela
+    ├── menu_pausa.gd        # Menu de pausa com volume (autoload "Pausa")
+    ├── ui_util.gd           # Estilos, fontes e textos compartilhados
+    └── signal_bus.gd        # Sinais e estado globais (autoload "SignalBus")
 ```
 
 ---
@@ -278,4 +278,5 @@ O GDD descreve o jogo completo (vários mundos, inimigos, chefe final). Esta ver
 - **Desenvolvimento:** Guilherme Vieira Wesolowski, João Henrique Ramos de Souza, José Antonio Voss e Victhor Hugo Wandersee Rodrigues Philippe.
 - **Orientação:** Prof. Diego Sauter Possamai — Engenharia de Software, Católica de Santa Catarina (Joinville).
 - **Engine:** [Godot Engine](https://godotengine.org/) 4.6.
-- **Assets** (cenário, sprites e áudios): listados e descritos nas seções 3 a 7 do Documento Complementar.
+- **Assets** (cenário, sprites e áudios): listados e descritos nas seções 3 a 7 do Documento Complementar. Sons de acerto, erro, clique e encaixe gerados pela equipe.
+- **Fontes:** [Cinzel e Cinzel Decorative](https://github.com/NDISCOVER/Cinzel) e [Nunito](https://github.com/googlefonts/nunito), sob a SIL Open Font License 1.1 (licenças em `assets/fonts/`).

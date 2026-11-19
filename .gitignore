@@ -11,3 +11,4 @@ mono_crash.*.json
 __MACOSX/
 Thumbs.db
 *.exe
+build/
