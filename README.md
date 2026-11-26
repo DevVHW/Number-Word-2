@@ -241,6 +241,7 @@ O GDD descreve o jogo completo (vários mundos, inimigos, chefe final). Esta ver
 ├── README.md                # Este guia
 ├── docs/
 │   ├── GDD_Numbers_World_2_Final.pdf                # Game Design Document
+│   ├── GDD_Numbers_World_2_Final.docx               # Game Design Document (versão editável)
 │   └── Documento_Complementar_Prototipo_N3.pdf      # GDD × implementado, assets, sons, animações
 ├── project.godot            # Configuração da Godot (cena inicial, resolução, teclas)
 ├── icon.svg                 # Ícone do projeto
