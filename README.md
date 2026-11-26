@@ -9,7 +9,7 @@ Esta versão é um **protótipo jogável com uma única fase**: a *Planície das
 | **Equipe** | Guilherme Vieira Wesolowski, João Henrique Ramos de Souza, José Antonio Voss e Victhor Hugo Wandersee Rodrigues Philippe |
 | **Curso / Disciplina** | Engenharia de Software — PAC Extensionista (Centro Universitário Católica de Santa Catarina, Joinville) |
 | **Professor** | Diego Sauter Possamai |
-| **GDD (Game Design Document)** | [`docs/GDD_10_Pages_Final.pdf`](docs/GDD_10_Pages_Final.pdf) |
+| **GDD (Game Design Document)** | [`docs/GDD_Numbers_World_2_Final.pdf`](docs/GDD_Numbers_World_2_Final.pdf) |
 | **Documento Complementar (GDD × implementado, assets, sons, animações)** | [`docs/Documento_Complementar_Prototipo_N3.pdf`](docs/Documento_Complementar_Prototipo_N3.pdf) |
 | **Executável (Windows) e versão Web** | [Releases do repositório](https://github.com/DevVHW/Number-Word-2/releases) |
 
@@ -240,7 +240,7 @@ O GDD descreve o jogo completo (vários mundos, inimigos, chefe final). Esta ver
 .
 ├── README.md                # Este guia
 ├── docs/
-│   ├── GDD_10_Pages_Final.pdf                       # Game Design Document
+│   ├── GDD_Numbers_World_2_Final.pdf                # Game Design Document
 │   └── Documento_Complementar_Prototipo_N3.pdf      # GDD × implementado, assets, sons, animações
 ├── project.godot            # Configuração da Godot (cena inicial, resolução, teclas)
 ├── icon.svg                 # Ícone do projeto
