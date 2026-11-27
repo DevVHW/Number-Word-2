@@ -205,18 +205,11 @@ Há **3 fragmentos** flutuantes na fase. Basta encostar para coletar: toca um so
 
 ## 9. Relação com o GDD
 
-O GDD descreve o jogo completo (vários mundos, inimigos, chefe final). Esta versão implementa apenas o **Mundo 1 — Planície das Frações**, como protótipo. A comparação detalhada está no Documento Complementar (link no topo deste arquivo).
+O GDD foi atualizado para esta versão ([`docs/GDD_Numbers_World_2_Final.pdf`](docs/GDD_Numbers_World_2_Final.pdf)). Ele descreve o jogo completo (vários mundos, inimigos e chefe final) e marca o que já está implementado. Esta versão entrega o **Mundo 1 — Planície das Frações**. A seção 19 do GDD e o arquivo [`docs/MELHORIAS.md`](docs/MELHORIAS.md) registram os ajustes feitos a partir do feedback.
 
-**Previsto no GDD e ainda não implementado:** Mundo 2 (Vale das Porcentagens), Mundo 3 (Caverna dos Números Negativos) e chefe final "Caos Numérico"; inimigos *Bug Numérico* e *Sentinela de Equação* (com IA por máquina de estados); medalhas e pontuação; dificuldade dinâmica; *Guia de Conhecimento* dentro do jogo; música adaptativa; sons de erro e de acerto do puzzle; animações Run, Attack, Hurt e Win do Neo (o sprite sheet já tem os quadros, mas eles não estão conectados).
+**Implementado nesta versão:** menu inicial, abertura narrativa, tutorial contextual com objetivo na tela, falas do Neo e do totem, painel de frações com barra de soma, Desfazer, Limpar, Dica e Fechar, dicas progressivas, sons de acerto, erro, clique e encaixe, música em loop, menu de pausa com volume, medalhas pelos Fragmentos de Conhecimento e versões para Windows e Web.
 
-**Onde o GDD diverge do protótipo atual** (vale o que está descrito neste README):
-
-| Tema | GDD | Protótipo atual |
-|---|---|---|
-| Teclas de movimento | "WASD" / "seta ou A/D" | Setas ou **A/D** para andar; **Espaço/W/↑** para pular |
-| Fragmentos | Necessários para acessar o puzzle ou a saída da fase | **Opcionais**: definem a medalha (ouro, prata ou bronze) |
-| Símbolos "+" e "=" | Neo os coleta antes de resolver | Não existem; o painel já traz a equação |
-| Som de acerto do puzzle | Listado como `sucesso.wav` | Implementado como `acerto.wav` (e `erro.wav` para resposta errada) |
+**Previsto no GDD e ainda não implementado:** Mundo 2 (Vale das Porcentagens), Mundo 3 (Caverna dos Números Negativos) e o chefe final "Caos Numérico"; inimigos *Bug Numérico* e *Sentinela de Equação* (com IA por máquina de estados); dificuldade dinâmica completa; música adaptativa; animações Run, Attack, Hurt e Win do Neo (o sprite sheet já tem os quadros, mas eles não estão conectados).
 
 ---
 
